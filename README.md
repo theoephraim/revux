@@ -1,7 +1,7 @@
 ## Revux
 
-> an experiment at making a vuex-like experience in redux
-> with some magic helpers for reducing API request boilerplate
+> an experiment at making a vuex-like experience in redux<br>
+> with some ✨magic✨ helpers for eliminating API request boilerplate
 
 If you're not familiar with [vuex](https://vuex.vuejs.org/), you may want to check out the docs quickly.
 It's the same concepts/design as redux, but without a lot of headaches and boilerplate.

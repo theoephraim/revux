@@ -1,7 +1,8 @@
-## REVUX
+## Revux Example - Todo list
 
-An experiment with trying to create a vuex-module like experience in redux with some built in
-tools for DRYing up api interactions.
+Simple todo list using a [revux module](https://github.com/theoephraim/revux).
+
+Built with create-react app to try to keep it as simple as possible...
 
 ---
 

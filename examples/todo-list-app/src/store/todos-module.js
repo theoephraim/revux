@@ -17,6 +17,8 @@ export default new RevuxModule({
     selectedTodoId: (state) => state.selectedTodoId,
   },
   apiActions: {
+    // api actions define both the "action" and associated "mutation" to make an API request
+    // with an absolute minimum of boilerplate :)
     GET_TODOS: {
       // the action function gets the current module state and a payload form dispatch
       // and returns a description of the api request to make

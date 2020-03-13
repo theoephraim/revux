@@ -11,16 +11,20 @@ const api = Axios.create({
 });
 window.api = api; // useful for dev
 
-api.interceptors.request.use((config) =>
-// here you can attach auth headers, other headers, etc
+// api.interceptors.request.use((config) => {
+//   // here you can attach auth headers, other headers, etc
+//   // or do some generic payload transformation
 
-  // if (window.store.state.auth.token) {
-  //   config.headers['x-auth'] = window.store.state.auth.token;
-  // }
-  config);
-api.interceptors.response.use((response) =>
-  // transform api responses if necessary...
-  // response.data = camelizeKeysDeep(response.data);
-  response);
+//   if (window.store.state.auth.token) {
+//     config.headers['x-auth'] = window.store.state.auth.token;
+//   }
+//   return config
+// });
+
+// api.interceptors.response.use((response) => {
+//   // transform api responses if necessary...
+//   // response.data = camelizeKeysDeep(response.data);
+//   return response;
+// });
 
 export default api;
