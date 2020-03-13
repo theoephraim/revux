@@ -29,11 +29,58 @@ The secondary goal is to introduce some API request related magic to remove all 
 
 ### Examples
 
-The easiest way to see how this works is to look at an example:
+The easiest way to see how this works is to look at a super basic example of a store module:
+```javascript
+import _ from 'lodash';
+import { RevuxModule } from 'revux';
 
-- TodoList example
-  - take a look at the [module](./examples/todo-list-app/src/store/todos-module.js)
-  - then how the state is used in the [App.js component](./examples/todo-list-app/src/App.js)
+export default new RevuxModule({
+  namespace: 'todos',
+  state: {
+    list: {},
+    selectedTodoId: null,
+  },
+  getters: {
+    todos: (state) => _.values(state.list),
+    selectedTodo: (state) => state.list[state.selectedTodoId],
+  },
+  apiActions: {
+    GET_TODOS: {
+      action: (ctx, payload) => ({
+        method: 'get',
+        url: '/todos',
+      }),
+      mutation(state, { response }) {
+        state.list = _.keyBy(response, 'id');
+      },
+    },
+    ADD_TODO: {
+      action: (ctx, payload) => ({
+        method: 'post',
+        url: '/todos',
+        params: payload,
+      }),
+      mutation(state, { response }) {
+        state.list[response.id] = response;
+      },
+    },
+  },
+  actions: {
+    selectTodo(ctx, payload) {
+      ctx.commit('SET_SELECTED_TODO', payload.id);
+    },
+  },
+  mutations: {
+    SET_SELECTED_TODO(state, id) {
+      state.selectedTodoId = id;
+    },
+  },
+});
+```
+
+Dig in deeper with a full TodoList example app:
+- take a look at the [module](./examples/todo-list-app/src/store/todos-module.js)
+- then how the state is used in the [App.js component](./examples/todo-list-app/src/App.js)
 
 ### Project status
 
