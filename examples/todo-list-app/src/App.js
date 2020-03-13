@@ -9,6 +9,7 @@ export default connect(
     console.log(state)
     return {
       todos: todosModule.getters('todos'),
+      selectedTodoId: todosModule.getters('selectedTodoId'),
       getTodosRequest: todosModule.requests('GET_TODOS'),
       addTodoRequest: todosModule.requests('ADD_TODO'),
     };
@@ -20,7 +21,8 @@ export default connect(
 
   // trigger fetch on load
   useEffect(() => {
-    todosModule.dispatchApiAction('GET_TODOS', { _delay: 1000 });
+    // artificial delay just so we can see it loading
+    todosModule.dispatchApiAction('GET_TODOS', { _delay: 2000 });
   }, []);
 
   async function addButtonHandler() {
@@ -31,11 +33,14 @@ export default connect(
 
     // can get success directly but usually would rely on the request getter for most things
     const success = await todosModule.dispatchApiAction('ADD_TODO', {
-      _delay: 500,
       title: newTodoTitle,
     });
     if (success) setNewTodoTitle('');
   }
+  async function selectButtonHandler(todoId) {
+    todosModule.dispatch('selectTodo', { id: todoId });
+  }
+
   const { getTodosRequest, addTodoRequest } = props;
 
   return (
@@ -48,9 +53,8 @@ export default connect(
         { getTodosRequest.isSuccess && <div>
           <div>
             <label>
+              New Todo Title:
               <input type='text' value={newTodoTitle} onChange={e => setNewTodoTitle(e.target.value)} />
-
-
             </label>
             <button
               onClick={addButtonHandler}
@@ -59,13 +63,16 @@ export default connect(
               { addTodoRequest.isPending ? "Saving..." : "Add Todo" }
             </button>
             { addTodoRequest.isError && <div>{addTodoRequest.errorMessage}</div> }
+            <p style={{fontSize: '12px', fontStyle: 'italic'}}><i>NOTE - only one todo can be added because the mock api always returns the same id</i></p>
           </div>
           <ul>
             { !props.todos.length && <li><i>No todos :(</i></li> }
 
             { props.todos.length > 0 && props.todos.map((todo) =>
             <li key={`todo-${todo.id}`}>
+              {props.selectedTodoId === todo.id && <span>⭐</span>}
               {todo.title}
+              <button onClick={() => selectButtonHandler(todo.id)}>select</button>
             </li>)}
           </ul>
           </div>}

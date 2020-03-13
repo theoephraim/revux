@@ -4,7 +4,7 @@ import { RevuxModule } from 'revux';
 export default new RevuxModule({
   namespace: 'todos', // currently this is required but might add something so it's not
   state: {
-    // initial state
+    // initial state for this chunk of the store
     list: {},
     selectedTodoId: null,
   },
@@ -14,6 +14,7 @@ export default new RevuxModule({
     // also need to make other getters accessible
     // and incorporate memoization (reselect?) to be more performant
     todos: (state) => _.values(state.list),
+    selectedTodoId: (state) => state.selectedTodoId,
   },
   apiActions: {
     GET_TODOS: {
@@ -65,15 +66,13 @@ export default new RevuxModule({
   },
   // way to pass in extra actions/mutations that are not api requests
   actions: {
-    selectedTodo(ctx, payload) {
+    selectTodo(ctx, payload) {
       ctx.commit('SET_SELECTED_TODO', payload.id);
     },
   },
   mutations: {
     // mutations still use immer under the hood and only affect the module's chunk of the state
     SET_SELECTED_TODO(state, id) {
-      console.log('SET_SELECTED_TODO', state);
-
       state.selectedTodoId = id;
     },
   },
