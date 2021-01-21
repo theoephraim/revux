@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/theoephraim/revux#readme",
   "dependencies": {
-    "immer": "^6.0.1",
+    "immer": "^8.0.1",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
